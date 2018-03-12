@@ -1,7 +1,7 @@
 # Undo
 This java demo project provides an example for an undo feature implementation.
 It is realized by command pattern and delayed execution.
-There is no need to implement a redo for every method in the API below.
+There is no need to implement a symmetric undo for every method in the API below.
 Instead, a second instance of the API is used.
 
 I also recommend this forum thread to get started: 

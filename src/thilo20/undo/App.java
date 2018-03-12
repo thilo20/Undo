@@ -5,7 +5,7 @@ public class App {
 
 	/** Original code using original ComplexApi. */
 	public static void orig() {
-		ComplexApi ca = new ComplexApi();
+		ComplexApi ca = new ComplexApiImpl();
 		ca.op1();
 		ca.op1();
 		ca.op1();
@@ -22,7 +22,7 @@ public class App {
 		ca.op1();
 		ca.op2(42);
 		// undo required..
-		((ComplexApiWithUndo) ca).undo(1);
+		((Undo) ca).undo(1);
 	}
 
 	/** Shows undo feature with public undo method. */

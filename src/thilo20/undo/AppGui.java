@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -25,7 +26,6 @@ public class AppGui extends JDialog {
 	ComplexApiWithUndo cawu = new ComplexApiWithUndo();
 
 	/** GUI elements */
-	private final JPanel operationsPanel = new JPanel();
 	private JTextField op2_val;
 	private JTextField n_undo;
 	private JTextField n_redo;
@@ -52,51 +52,55 @@ public class AppGui extends JDialog {
 		setTitle("undo GUI demo");
 		setBounds(100, 100, 335, 402);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		operationsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(operationsPanel);
-		operationsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		{
-			JButton btnOp1 = new JButton("operation 1");
-			btnOp1.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					cawu.op1();
-					cawu.printState();
-					updateLists();
-				}
-			});
-			operationsPanel.add(btnOp1);
-		}
-		{
-			Component horizontalStrut = Box.createHorizontalStrut(20);
-			operationsPanel.add(horizontalStrut);
-		}
-		{
-			JButton btnOp2 = new JButton("operation 2");
-			btnOp2.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					int val = Integer.parseInt(op2_val.getText());
-					cawu.op2(val);
-					cawu.printState();
-					updateLists();
-				}
-			});
-			operationsPanel.add(btnOp2);
-		}
-		{
-			op2_val = new JTextField();
-			op2_val.setHorizontalAlignment(SwingConstants.CENTER);
-			op2_val.setText("0");
-			op2_val.setToolTipText("op2 argument val");
-			operationsPanel.add(op2_val);
-			op2_val.setColumns(2);
+			JPanel operationsPanel = new JPanel();
+			operationsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			getContentPane().add(operationsPanel);
+			operationsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			{
+				JButton btnOp1 = new JButton("operation 1");
+				btnOp1.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						cawu.op1();
+						cawu.printState();
+						updateLists();
+					}
+				});
+				operationsPanel.add(btnOp1);
+			}
+			{
+				Component horizontalStrut = Box.createHorizontalStrut(20);
+				operationsPanel.add(horizontalStrut);
+			}
+			{
+				JButton btnOp2 = new JButton("operation 2");
+				btnOp2.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int val = Integer.parseInt(op2_val.getText());
+						cawu.op2(val);
+						cawu.printState();
+						updateLists();
+					}
+				});
+				operationsPanel.add(btnOp2);
+			}
+			{
+				op2_val = new JTextField();
+				op2_val.setHorizontalAlignment(SwingConstants.CENTER);
+				op2_val.setText("0");
+				op2_val.setToolTipText("op2 argument val");
+				operationsPanel.add(op2_val);
+				op2_val.setColumns(2);
+			}
 		}
 		{
 			JPanel undoPanel = new JPanel();
 			getContentPane().add(undoPanel);
 			{
 				listUndo = new JList<Command>();
+				listUndo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				undoPanel.add(listUndo);
 				listUndo.setPreferredSize(new Dimension(100, 100));
 			}
@@ -128,6 +132,7 @@ public class AppGui extends JDialog {
 			getContentPane().add(redoPanel);
 			{
 				listRedo = new JList<Command>();
+				listRedo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				redoPanel.add(listRedo);
 				listRedo.setPreferredSize(new Dimension(100, 100));
 			}

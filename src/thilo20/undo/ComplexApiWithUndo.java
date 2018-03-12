@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** undo support for unmodified complex API. */
-public class ComplexApiWithUndo extends ComplexApi {
+public class ComplexApiWithUndo implements ComplexApi, Undo {
 
 	/** original api with all operations directly applied. */
-	ComplexApi caNew;
+	ComplexApiImpl caNew;
 	/** original api with delayed operations, n operations behind caNew. */
-	ComplexApi caOld;
+	ComplexApiImpl caOld;
 
 	/** max undo operations, max delay between caNew and caOld. */
 	final int MAX_COMMANDS = 5;
@@ -23,8 +23,8 @@ public class ComplexApiWithUndo extends ComplexApi {
 	List<Command> commandsRedo;
 
 	public ComplexApiWithUndo() {
-		caNew = new ComplexApi();
-		caOld = new ComplexApi(caNew);
+		caNew = new ComplexApiImpl();
+		caOld = new ComplexApiImpl(caNew);
 		commandsUndo = new ArrayList<>();
 		commandsRedo = new ArrayList<>();
 	}
@@ -65,10 +65,14 @@ public class ComplexApiWithUndo extends ComplexApi {
 		return caNew.op2(val);
 	}
 
-	/** resets to the oldest restorable state, caOld. */
+	/* (non-Javadoc)
+	 * @see thilo20.undo.Undo#undoAll()
+	 */
+	@Override
 	public void undoAll() {
+		System.out.println("reset to old state.");
 		// reset caNew to caOld
-		caNew = new ComplexApi(caOld);
+		caNew = new ComplexApiImpl(caOld);
 
 		// populate redo
 		commandsUndo.addAll(commandsRedo);
@@ -79,7 +83,10 @@ public class ComplexApiWithUndo extends ComplexApi {
 		commandsUndo.clear();
 	}
 
-	/** re-applies commands to caNew. */
+	/* (non-Javadoc)
+	 * @see thilo20.undo.Undo#redo(int)
+	 */
+	@Override
 	public void redo(int n) {
 		if (n < 1)
 			return;
@@ -95,12 +102,10 @@ public class ComplexApiWithUndo extends ComplexApi {
 		commandsRedo = commandsRedo.subList(n, commandsRedo.size());
 	}
 
-	/**
-	 * core feature: undo last commands applied to this ComplexApi.
-	 *
-	 * @param n
-	 *            number of operations to undo, >0
+	/* (non-Javadoc)
+	 * @see thilo20.undo.Undo#undo(int)
 	 */
+	@Override
 	public void undo(int n) {
 		if (n < 1)
 			return;
@@ -132,12 +137,18 @@ public class ComplexApiWithUndo extends ComplexApi {
 				+ " toString: " + toString());
 	}
 
-	/** Provides undo-able commands for GUI listing. */
+	/* (non-Javadoc)
+	 * @see thilo20.undo.Undo#getUndoCommands()
+	 */
+	@Override
 	public List<Command> getUndoCommands() {
 		return commandsUndo;
 	}
 
-	/** Provides redo-able commands for GUI listing. */
+	/* (non-Javadoc)
+	 * @see thilo20.undo.Undo#getRedoCommands()
+	 */
+	@Override
 	public List<Command> getRedoCommands() {
 		return commandsRedo;
 	}

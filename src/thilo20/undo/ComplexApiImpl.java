@@ -7,13 +7,13 @@ import java.util.Map;
  * to implement as there are many internal operations with side effects
  * involved. Object state is hard to duplicate, requires a lot of memory etc.
  */
-public class ComplexApi {
+public class ComplexApiImpl implements ComplexApi {
 
 	/** many private variables, maps and more.. */
 	private int myVal;
 	private Map<String, String> myMap;
 
-	public ComplexApi() {
+	public ComplexApiImpl() {
 		myMap = new HashMap<>();
 		myVal = 0;
 	}
@@ -23,16 +23,24 @@ public class ComplexApi {
 	 * 
 	 * @param other
 	 */
-	public ComplexApi(ComplexApi other) {
+	public ComplexApiImpl(ComplexApiImpl other) {
 		myVal = other.myVal;
 		myMap = new HashMap<>(other.myMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see thilo20.undo.ComplexApi#op1()
+	 */
+	@Override
 	public void op1() {
 		myVal++;
 		// myVal = -myVal;
 	}
 
+	/* (non-Javadoc)
+	 * @see thilo20.undo.ComplexApi#op2(int)
+	 */
+	@Override
 	public int op2(int val) {
 		// String v = myMap.get(String.valueOf(val));
 		// if (v != null) {
