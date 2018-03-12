@@ -10,8 +10,8 @@ import java.util.Map;
 public class ComplexApiImpl implements ComplexApi {
 
 	/** many private variables, maps and more.. */
-	private int myVal;
-	private Map<String, String> myMap;
+	private int myVal; // will be used with increment/decrement for easy understanding of undo
+	private Map<String, String> myMap; // arbitrary complex content
 
 	public ComplexApiImpl() {
 		myMap = new HashMap<>();
@@ -34,7 +34,6 @@ public class ComplexApiImpl implements ComplexApi {
 	@Override
 	public void op1() {
 		myVal++;
-		// myVal = -myVal;
 	}
 
 	/* (non-Javadoc)
@@ -42,16 +41,17 @@ public class ComplexApiImpl implements ComplexApi {
 	 */
 	@Override
 	public int op2(int val) {
-		// String v = myMap.get(String.valueOf(val));
-		// if (v != null) {
-		// v += val;
-		// } else {
-		// myMap.put("" + val, "");
-		// }
-		// myVal += val;
-		// return val / 2;
 		myVal++;
-		return 0;
+
+		// anything supposed to be tricky
+		String v = myMap.get(String.valueOf(val));
+		if (v != null) {
+			v += (char) ('a' + val);
+			myMap.put("" + val, v);
+		} else {
+			myMap.put("" + val, "x");
+		}
+		return myMap.size() + val / 2;
 	}
 
 	@Override
