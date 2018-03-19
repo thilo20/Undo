@@ -11,8 +11,6 @@ public class ComplexApiWithUndo implements ComplexApi, Undo {
 	/** original api with delayed operations, n operations behind caNew. */
 	ComplexApiImpl caOld;
 
-	/** max undo operations, max delay between caNew and caOld. */
-	final int MAX_COMMANDS = 5;
 	/**
 	 * undo-able commands. These are the last commands directly applied to caNew but
 	 * not yet to caOld.
@@ -37,7 +35,7 @@ public class ComplexApiWithUndo implements ComplexApi, Undo {
 		// store new command
 		commandsUndo.add(comm);
 		
-		if (commandsUndo.size() > MAX_COMMANDS) {
+		if (commandsUndo.size() > Config.MAX_COMMANDS) {
 			System.out.println("undo limit exceeded, updating caOld.");
 			// remove and execute oldest command
 			commandsUndo.remove(0).execute(caOld);

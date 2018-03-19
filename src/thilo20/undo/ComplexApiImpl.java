@@ -26,6 +26,8 @@ public class ComplexApiImpl implements ComplexApi {
 	public ComplexApiImpl(ComplexApiImpl other) {
 		myVal = other.myVal;
 		myMap = new HashMap<>(other.myMap);
+
+		delay(Config.DELAY_COPY_INSTANCE);
 	}
 
 	/* (non-Javadoc)
@@ -34,6 +36,8 @@ public class ComplexApiImpl implements ComplexApi {
 	@Override
 	public void op1() {
 		myVal++;
+
+		delay(Config.DELAY_OP1);
 	}
 
 	/* (non-Javadoc)
@@ -42,6 +46,8 @@ public class ComplexApiImpl implements ComplexApi {
 	@Override
 	public int op2(int val) {
 		myVal++;
+
+		delay(Config.DELAY_OP2);
 
 		// anything supposed to be tricky
 		String v = myMap.get(String.valueOf(val));
@@ -58,4 +64,16 @@ public class ComplexApiImpl implements ComplexApi {
 	public String toString() {
 		return "ComplexApi [myVal=" + myVal + ", myMap=" + myMap + "]";
 	}
+
+	/** Delays execution for given time in ms. */
+	private void delay(long millis) {
+		if (!Config.DELAY_ON)
+			return;
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
