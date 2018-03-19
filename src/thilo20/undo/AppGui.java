@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -31,6 +33,8 @@ public class AppGui extends JDialog {
 	private JTextField n_redo;
 	private JList<Command> listUndo;
 	private JList<Command> listRedo;
+	private JScrollPane scrollPaneUndo;
+	private JScrollPane scrollPaneRedo;
 
 	/**
 	 * Launch the application.
@@ -50,7 +54,7 @@ public class AppGui extends JDialog {
 	 */
 	public AppGui() {
 		setTitle("undo GUI demo");
-		setBounds(100, 100, 335, 402);
+		setBounds(100, 100, 506, 394);
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		{
 			JPanel operationsPanel = new JPanel();
@@ -100,9 +104,12 @@ public class AppGui extends JDialog {
 			getContentPane().add(undoPanel);
 			{
 				listUndo = new JList<Command>();
+				listUndo.setVisibleRowCount(5);
+				listUndo.setMinimumSize(new Dimension(100, 100));
 				listUndo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				undoPanel.add(listUndo);
-				listUndo.setPreferredSize(new Dimension(100, 100));
+				scrollPaneUndo = new JScrollPane(listUndo);
+				scrollPaneUndo.setMinimumSize(new Dimension(100, 100));
+				undoPanel.add(scrollPaneUndo);
 			}
 			JButton btnUndo = new JButton("undo");
 			undoPanel.add(btnUndo);
@@ -123,52 +130,56 @@ public class AppGui extends JDialog {
 				n_undo.setToolTipText("number of undo steps");
 				n_undo.setColumns(2);
 			}
-			{
-				n_undo.setToolTipText("number of redo steps");
-			}
 		}
 		{
 			JPanel redoPanel = new JPanel();
 			getContentPane().add(redoPanel);
 			{
 				listRedo = new JList<Command>();
+				listRedo.setVisibleRowCount(5);
+				listRedo.setMinimumSize(new Dimension(100, 100));
 				listRedo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				redoPanel.add(listRedo);
-				listRedo.setPreferredSize(new Dimension(100, 100));
+				scrollPaneRedo = new JScrollPane(listRedo);
+				scrollPaneUndo.setMinimumSize(new Dimension(100, 100));
+				redoPanel.add(scrollPaneRedo);
 			}
+			JButton btnRedo = new JButton("redo");
+			redoPanel.add(btnRedo);
+			btnRedo.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int comm = Integer.parseInt(n_redo.getText());
+					cawu.redo(comm);
+					cawu.printState();
+					updateLists();
+				}
+			});
 			{
-				JButton btnRedo = new JButton("redo");
-				redoPanel.add(btnRedo);
 				n_redo = new JTextField();
 				redoPanel.add(n_redo);
 				n_redo.setHorizontalAlignment(SwingConstants.CENTER);
 				n_redo.setText("1");
+				n_redo.setToolTipText("number of redo steps");
 				n_redo.setColumns(2);
-				btnRedo.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						int comm = Integer.parseInt(n_redo.getText());
-						cawu.redo(comm);
-						cawu.printState();
-						updateLists();
-					}
-				});
 			}
 		}
 
 		updateLists();
+		repaint();
 	}
 
 	private void updateLists() {
-		getListUndo().setListData(cawu.getUndoCommands().toArray(new Command[0]));
-		getListRedo().setListData(cawu.getRedoCommands().toArray(new Command[0]));
+		// update list content
+		listUndo.setListData(cawu.getUndoCommands().toArray(new Command[0]));
+		listRedo.setListData(cawu.getRedoCommands().toArray(new Command[0]));
+
+		// scroll to end
+		scrollPaneUndo.validate();
+		JScrollBar vertical = scrollPaneUndo.getVerticalScrollBar();
+		vertical.setValue(vertical.getMaximum());
+		scrollPaneRedo.validate();
+		vertical = scrollPaneRedo.getVerticalScrollBar();
+		vertical.setValue(vertical.getMaximum());
 	}
 
-	protected JList<Command> getListUndo() {
-		return listUndo;
-	}
-
-	protected JList<Command> getListRedo() {
-		return listRedo;
-	}
 }
