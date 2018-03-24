@@ -22,7 +22,7 @@ public class App {
 		ca.op1();
 		ca.op2(42);
 		// undo required..
-		((Undo) ca).undo(1);
+		((ComplexApiWithUndo) ca).getUndoApi().undo(1);
 	}
 
 	/** Shows undo feature with public undo method. */
@@ -33,7 +33,7 @@ public class App {
 		ca.op1();
 		ca.op2(42);
 		// undo required..
-		ca.undo(1);
+		ca.getUndoApi().undo(1);
 	}
 
 	public static void main(String[] args) {

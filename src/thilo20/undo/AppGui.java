@@ -134,7 +134,7 @@ public class AppGui extends JDialog {
 			btnUndoAll.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cawu.undoAll();
+					cawu.getUndoApi().undoAll();
 					cawu.printState();
 					updateLists();
 				}
@@ -147,7 +147,7 @@ public class AppGui extends JDialog {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					int comm = Integer.parseInt(n_undo.getText());
-					cawu.undo(comm);
+					cawu.getUndoApi().undo(comm);
 					cawu.printState();
 					updateLists();
 				}
@@ -186,7 +186,7 @@ public class AppGui extends JDialog {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					int comm = Integer.parseInt(n_redo.getText());
-					cawu.redo(comm);
+					cawu.getUndoApi().redo(comm);
 					cawu.printState();
 					updateLists();
 				}
@@ -209,8 +209,8 @@ public class AppGui extends JDialog {
 
 	private void updateLists() {
 		// update list content
-		listUndo.setListData(cawu.getUndoCommands().toArray(new Command[0]));
-		listRedo.setListData(cawu.getRedoCommands().toArray(new Command[0]));
+		listUndo.setListData(cawu.getUndoApi().getUndoCommands().toArray(new Command[0]));
+		listRedo.setListData(cawu.getUndoApi().getRedoCommands().toArray(new Command[0]));
 
 		// scroll to end
 		scrollPaneUndo.validate();
