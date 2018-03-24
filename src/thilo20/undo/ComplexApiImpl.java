@@ -2,6 +2,8 @@ package thilo20.undo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Complex API which does not support an undo feature. Assumptions: Undo is hard
  * to implement as there are many internal operations with side effects
@@ -74,6 +76,18 @@ public class ComplexApiImpl implements ComplexApi {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String op3(String name) {
+		myVal++;
+		return StringUtils.reverse(name);
+	}
+
+	@Override
+	public double op4(int val, Double val2) {
+		myVal++;
+		return val * val2;
 	}
 
 }

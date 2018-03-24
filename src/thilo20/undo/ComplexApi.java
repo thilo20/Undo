@@ -15,4 +15,9 @@ public interface ComplexApi {
 	/** another complex operation with different signature and return type */
 	int op2(int val);
 
+	/** another complex operation with different signature and return type */
+	String op3(String name);
+
+	/** another complex operation with different signature and return type */
+	double op4(int val, Double val2);
 }

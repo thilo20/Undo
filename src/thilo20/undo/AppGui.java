@@ -1,11 +1,9 @@
 package thilo20.undo;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -35,6 +33,9 @@ public class AppGui extends JDialog {
 	private JList<Command> listRedo;
 	private JScrollPane scrollPaneUndo;
 	private JScrollPane scrollPaneRedo;
+	private JTextField op3_name;
+	private JTextField op4_val;
+	private JTextField op4_val2;
 
 	/**
 	 * Launch the application.
@@ -58,7 +59,7 @@ public class AppGui extends JDialog {
 		getContentPane().setLayout(null);
 		{
 			JPanel operationsPanel = new JPanel();
-			operationsPanel.setBounds(0, 0, 490, 85);
+			operationsPanel.setBounds(0, 0, 490, 152);
 			operationsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 			getContentPane().add(operationsPanel);
 			{
@@ -76,13 +77,8 @@ public class AppGui extends JDialog {
 				operationsPanel.add(btnOp1);
 			}
 			{
-				Component horizontalStrut = Box.createHorizontalStrut(20);
-				horizontalStrut.setBounds(221, 21, 20, 12);
-				operationsPanel.add(horizontalStrut);
-			}
-			{
 				JButton btnOp2 = new JButton("op2(int)");
-				btnOp2.setBounds(246, 10, 87, 23);
+				btnOp2.setBounds(129, 36, 87, 23);
 				btnOp2.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -96,25 +92,72 @@ public class AppGui extends JDialog {
 			}
 			{
 				op2_val = new JTextField();
-				op2_val.setBounds(338, 11, 22, 20);
+				op2_val.setBounds(221, 37, 22, 20);
 				op2_val.setHorizontalAlignment(SwingConstants.CENTER);
 				op2_val.setText("0");
-				op2_val.setToolTipText("op2 argument val");
+				op2_val.setToolTipText("op2 int param");
 				operationsPanel.add(op2_val);
 				op2_val.setColumns(2);
 			}
+
+			JButton btnOp3 = new JButton("op3(String)");
+			btnOp3.setBounds(129, 64, 102, 23);
+			btnOp3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cawu.op3(op3_name.getText());
+					cawu.printState();
+					updateLists();
+				}
+			});
+			operationsPanel.add(btnOp3);
+
+			op3_name = new JTextField();
+			op3_name.setBounds(245, 65, 86, 20);
+			operationsPanel.add(op3_name);
+			op3_name.setText("abcdef");
+			op3_name.setToolTipText("op3 String param");
+			op3_name.setColumns(10);
+
+			JButton btnOp4 = new JButton("op4(int,Double)");
+			btnOp4.setBounds(129, 89, 126, 23);
+			btnOp4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int val = Integer.parseInt(op4_val.getText());
+					Double val2 = Double.parseDouble(op4_val2.getText());
+					cawu.op4(val, val2);
+					cawu.printState();
+					updateLists();
+				}
+			});
+			operationsPanel.add(btnOp4);
+
+			op4_val = new JTextField();
+			op4_val.setBounds(260, 90, 22, 20);
+			operationsPanel.add(op4_val);
+			op4_val.setText("2");
+			op4_val.setToolTipText("op4 int param");
+			op4_val.setColumns(10);
+
+			op4_val2 = new JTextField();
+			op4_val2.setBounds(287, 91, 44, 20);
+			operationsPanel.add(op4_val2);
+			op4_val2.setText("2.5");
+			op4_val2.setToolTipText("op4 Double param");
+			op4_val2.setColumns(10);
 
 			JLabel lblComplexApi = new JLabel("Complex API");
 			lblComplexApi.setBounds(10, 11, 96, 20);
 			operationsPanel.add(lblComplexApi);
 
 			JLabel lblUndoApi = new JLabel("Undo API");
-			lblUndoApi.setBounds(10, 71, 96, 14);
+			lblUndoApi.setBounds(10, 127, 96, 14);
 			operationsPanel.add(lblUndoApi);
 		}
 		{
 			JPanel undoPanel = new JPanel();
-			undoPanel.setBounds(0, 100, 490, 119);
+			undoPanel.setBounds(0, 153, 490, 94);
 			getContentPane().add(undoPanel);
 			undoPanel.setLayout(null);
 			{
@@ -165,7 +208,7 @@ public class AppGui extends JDialog {
 		}
 		{
 			JPanel redoPanel = new JPanel();
-			redoPanel.setBounds(0, 219, 490, 134);
+			redoPanel.setBounds(0, 248, 490, 105);
 			getContentPane().add(redoPanel);
 			{
 				listRedo = new JList<Command>();

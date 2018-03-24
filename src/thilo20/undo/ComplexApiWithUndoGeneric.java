@@ -27,4 +27,26 @@ public class ComplexApiWithUndoGeneric extends ComplexApiWithUndo {
 		return caNew.op2(val);
 	}
 
+	@Override
+	public String op3(String name) {
+		// clear redo
+		commandsRedo.clear();
+		// store command for caOld
+		addCommand(new CommandGeneric(name));
+		// apply command to caNew
+		// note: this cannot be integrated in addCommand as return types might differ!
+		return caNew.op3(name);
+	}
+
+	@Override
+	public double op4(int val, Double val2) {
+		// clear redo
+		commandsRedo.clear();
+		// store command for caOld
+		addCommand(new CommandGeneric(val, val2));
+		// apply command to caNew
+		// note: this cannot be integrated in addCommand as return types might differ!
+		return caNew.op4(val, val2);
+	}
+
 }
