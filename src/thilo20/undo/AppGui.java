@@ -26,7 +26,7 @@ public class AppGui extends JDialog {
 
 	/** under test: complex api with undo */
 	// ComplexApiWithUndo cawu = new ComplexApiWithUndo();
-	ComplexApiWithUndoGeneric cawu = new ComplexApiWithUndoGeneric();
+	ComplexApiWithUndo cawu = new ComplexApiWithUndoGeneric();
 
 	/** GUI elements */
 	private JTextField op2_val;

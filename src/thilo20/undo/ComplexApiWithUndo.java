@@ -31,7 +31,7 @@ public class ComplexApiWithUndo implements ComplexApi, Undo {
 	 * 
 	 *  @param comm new command
 	 */
-	private void addCommand(Command comm) {
+	protected void addCommand(Command comm) {
 		// store new command
 		commandsUndo.add(comm);
 		
