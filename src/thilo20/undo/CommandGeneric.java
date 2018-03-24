@@ -22,6 +22,14 @@ class CommandGeneric implements Command {
 		this.args = args;
 	}
 
+	/** Constructor with given parameters. Takes method name from call stack. */
+	public CommandGeneric(Object... args) {
+		// see
+		// https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection
+		this.methodName = new Throwable().getStackTrace()[1].getMethodName();
+		this.args = args;
+	}
+
 	@Override
 	public void execute(ComplexApi target) {
 		// dev note: this might help:
