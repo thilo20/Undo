@@ -14,24 +14,30 @@ public class App {
 		// ca.undo(1);
 	}
 
-	/** Shows undo feature with hidden undo method. */
+	/** Shows undo feature with simple command pattern implementation. */
 	public static void demo1() {
-		ComplexApi ca = new ComplexApiWithUndo();
+		ComplexApiWithUndo ca = new ComplexApiWithUndoSimple();
 		ca.op1();
 		ca.op1();
 		ca.op1();
 		ca.op2(42);
+		ca.op1();
+		// debug here to see first command applied:
+		ca.op1();
 		// undo required..
-		((ComplexApiWithUndo) ca).getUndoApi().undo(1);
+		ca.getUndoApi().undo(1);
 	}
 
-	/** Shows undo feature with public undo method. */
+	/** Shows undo feature with generic command pattern implementation. */
 	public static void demo2() {
-		ComplexApiWithUndo ca = new ComplexApiWithUndo();
+		ComplexApiWithUndo ca = new ComplexApiWithUndoGeneric();
 		ca.op1();
 		ca.op1();
 		ca.op1();
 		ca.op2(42);
+		ca.op1();
+		// debug here to see first command applied:
+		ca.op1();
 		// undo required..
 		ca.getUndoApi().undo(1);
 	}

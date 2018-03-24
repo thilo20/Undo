@@ -3,8 +3,11 @@ package thilo20.undo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** undo support for unmodified complex API. */
-public class ComplexApiWithUndo implements ComplexApi {
+/**
+ * Undo support for unmodified complex API. Derive from this class and implement
+ * the ComplexApi methods.
+ */
+public abstract class ComplexApiWithUndo implements ComplexApi {
 
 	/** original api with all operations directly applied. */
 	ComplexApiImpl caNew;
@@ -50,26 +53,6 @@ public class ComplexApiWithUndo implements ComplexApi {
 		}
 	}
 
-	@Override
-	public void op1() {
-		// clear redo
-		commandsRedo.clear();
-		// store command for caOld
-		addCommand(new Command1());
-		// apply command to caNew
-		caNew.op1();
-	}
-
-	@Override
-	public int op2(int val) {
-		// clear redo
-		commandsRedo.clear();
-		// store command for caOld
-		addCommand(new Command2(val));
-		// apply command to caNew
-		// note: this cannot be integrated in addCommand as return types might differ!
-		return caNew.op2(val);
-	}
 
 	/** Provides the undo functionality. */
 	public Undo getUndoApi() {
