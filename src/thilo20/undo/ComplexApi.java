@@ -1,11 +1,9 @@
 package thilo20.undo;
 
 /**
- * Complex API which does not support an undo feature.
+ * Complex API (example impl) which does not support an undo feature.
  * 
- * Assumptions: Undo is hard to implement as there are many internal operations
- * with side effects involved. Object state is hard to duplicate, requires a lot
- * of memory etc.
+ * These are the exposed operations that shall be undo-able.
  */
 public interface ComplexApi {
 

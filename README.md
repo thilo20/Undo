@@ -7,19 +7,21 @@ Instead, a second instance of the API is used.
 I recommend this forum thread to get started: 
 https://stackoverflow.com/questions/49755/design-pattern-for-undo-engine
 
-Try AppGui for interactive testing - it will look like this:
+The screenshot below shows:
+- project class layout 
+- simple GUI for interactive testing
 
 ![undo gui demo](./undo-demo.png)
 
 ## how to use:
-- Use buttons 'operation 1' and 'operation 2'(int) to trigger commands of the base API.
+- Use buttons 'operation 1' and 'operation 2'(int) etc. to trigger commands of the base API.
 - Observe command history undo/redo lists
 - Use buttons 'undo' and 'redo' to revoke selected number of operations (core feature)
-- Observe API state in console window.
-
+- Observe internal state in console window
 
 ## dev-env:
 Simple Eclipse build, just import project, build and run.
 
-development state: stable (fully functional, not harmful!)
+development state: stable, fully functional
 
+project stats: LoC=573 comment=199 files=15 

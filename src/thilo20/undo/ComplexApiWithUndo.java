@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Undo support for unmodified complex API. Derive from this class and implement
- * the ComplexApi methods.
+ * Undo support for unmodified complex API.
+ * 
+ * Derive from this class and implement the ComplexApi methods. You do not need
+ * to implement any undo logic - this is handled internally in UndoImpl.
  */
 public abstract class ComplexApiWithUndo implements ComplexApi {
 

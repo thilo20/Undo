@@ -38,7 +38,7 @@ public class AppGui extends JDialog {
 	private JTextField op4_val2;
 
 	/**
-	 * Launch the application.
+	 * Launch the GUI application.
 	 */
 	public static void main(String[] args) {
 		try {

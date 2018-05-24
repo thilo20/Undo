@@ -5,9 +5,13 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Complex API which does not support an undo feature. Assumptions: Undo is hard
- * to implement as there are many internal operations with side effects
- * involved. Object state is hard to duplicate, requires a lot of memory etc.
+ * Complex API (example impl) which does not support an undo feature. 
+ * 
+ * Assumptions: 
+ * Undo is hard to implement as there are many internal operations with side effects involved. 
+ * Object state is hard to duplicate, requires a lot of memory etc.
+ * 
+ * In order to implement undo, we expose all operations that shall be undo-able via interface ComplexApi.  
  */
 public class ComplexApiImpl implements ComplexApi {
 
