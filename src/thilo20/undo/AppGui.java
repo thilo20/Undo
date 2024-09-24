@@ -36,6 +36,7 @@ public class AppGui extends JDialog {
 	private JTextField op3_name;
 	private JTextField op4_val;
 	private JTextField op4_val2;
+	private JTextField op_result;
 
 	/**
 	 * Launch the GUI application.
@@ -64,12 +65,14 @@ public class AppGui extends JDialog {
 			getContentPane().add(operationsPanel);
 			{
 				JButton btnOp1 = new JButton("op1()");
+				btnOp1.setToolTipText("operation 1: modify internal state (increment counter only)");
 				btnOp1.setBounds(129, 10, 87, 23);
 				btnOp1.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						cawu.op1();
 						cawu.printState();
+						updateResult("void");
 						updateLists();
 					}
 				});
@@ -78,12 +81,14 @@ public class AppGui extends JDialog {
 			}
 			{
 				JButton btnOp2 = new JButton("op2(int)");
+				btnOp2.setToolTipText("operation 2: modify internal state (counter and map)");
 				btnOp2.setBounds(129, 36, 87, 23);
 				btnOp2.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						int val = Integer.parseInt(op2_val.getText());
-						cawu.op2(val);
+						int res=cawu.op2(val);
+						updateResult(String.valueOf(res));
 						cawu.printState();
 						updateLists();
 					}
@@ -101,11 +106,13 @@ public class AppGui extends JDialog {
 			}
 
 			JButton btnOp3 = new JButton("op3(String)");
+			btnOp3.setToolTipText("operation 3: return reversed input string");
 			btnOp3.setBounds(129, 64, 102, 23);
 			btnOp3.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cawu.op3(op3_name.getText());
+					String res=cawu.op3(op3_name.getText());
+					updateResult(res);
 					cawu.printState();
 					updateLists();
 				}
@@ -120,13 +127,15 @@ public class AppGui extends JDialog {
 			op3_name.setColumns(10);
 
 			JButton btnOp4 = new JButton("op4(int,Double)");
+			btnOp4.setToolTipText("operation 4: return val1 * val2");
 			btnOp4.setBounds(129, 89, 126, 23);
 			btnOp4.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					int val = Integer.parseInt(op4_val.getText());
 					Double val2 = Double.parseDouble(op4_val2.getText());
-					cawu.op4(val, val2);
+					double res=cawu.op4(val, val2);
+					updateResult(String.valueOf(res));
 					cawu.printState();
 					updateLists();
 				}
@@ -147,12 +156,19 @@ public class AppGui extends JDialog {
 			op4_val2.setToolTipText("op4 Double param");
 			op4_val2.setColumns(10);
 
+			op_result = new JTextField();
+			op_result.setBounds(330, 10, 200, 20);
+			operationsPanel.add(op_result);
+			op_result.setText("result of last call");
+			op_result.setToolTipText("return value of last method call");
+			op_result.setColumns(10);
+
 			JLabel lblComplexApi = new JLabel("Complex API");
 			lblComplexApi.setBounds(10, 11, 96, 20);
 			operationsPanel.add(lblComplexApi);
 
-			JLabel lblUndoApi = new JLabel("Undo API");
-			lblUndoApi.setBounds(10, 127, 96, 14);
+			JLabel lblUndoApi = new JLabel("Undo API - command history");
+			lblUndoApi.setBounds(10, 127, 200, 14);
 			operationsPanel.add(lblUndoApi);
 		}
 		{
@@ -162,6 +178,7 @@ public class AppGui extends JDialog {
 			undoPanel.setLayout(null);
 			{
 				listUndo = new JList<Command>();
+				listUndo.setToolTipText("List of commands that can be un-done, issued commands are added to the bottom of this list");
 				listUndo.setVisibleRowCount(5);
 				listUndo.setMinimumSize(new Dimension(100, 100));
 				listUndo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -212,6 +229,7 @@ public class AppGui extends JDialog {
 			getContentPane().add(redoPanel);
 			{
 				listRedo = new JList<Command>();
+				listRedo.setToolTipText("List of commands that can be re-done, only available after undo. Commands are added to the top of this list");
 				listRedo.setVisibleRowCount(5);
 				listRedo.setMinimumSize(new Dimension(100, 100));
 				listRedo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -262,5 +280,9 @@ public class AppGui extends JDialog {
 		scrollPaneRedo.validate();
 		vertical = scrollPaneRedo.getVerticalScrollBar();
 		vertical.setValue(vertical.getMaximum());
+	}
+
+	private void updateResult(String text) {
+		op_result.setText(text);
 	}
 }
