@@ -1,23 +1,26 @@
 package thilo20.undo;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Complex API (example impl) which does not support an undo feature. 
+ * Complex API (example impl) which does not support an undo feature.
  * 
- * Assumptions: 
- * Undo is hard to implement as there are many internal operations with side effects involved. 
+ * Assumptions:
+ * Undo is hard to implement as there are many internal operations with side
+ * effects involved.
  * Object state is hard to duplicate, requires a lot of memory etc.
  * 
- * In order to implement undo, we expose all operations that shall be undo-able via interface ComplexApi.  
+ * In order to implement undo, we expose all operations that shall be undo-able
+ * via interface ComplexApi.
  */
 public class ComplexApiImpl implements ComplexApi {
 
 	/** many private variables, maps and more.. */
 	private int myVal; // will be used with increment/decrement for easy understanding of undo
-	private Map<String, String> myMap; // arbitrary complex content
+	private Map<String, Integer> myMap; // arbitrary complex content
 
 	public ComplexApiImpl() {
 		myMap = new HashMap<>();
@@ -36,7 +39,9 @@ public class ComplexApiImpl implements ComplexApi {
 		delay(Config.DELAY_COPY_INSTANCE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see thilo20.undo.ComplexApi#op1()
 	 */
 	@Override
@@ -46,7 +51,9 @@ public class ComplexApiImpl implements ComplexApi {
 		delay(Config.DELAY_OP1);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see thilo20.undo.ComplexApi#op2(int)
 	 */
 	@Override
@@ -55,15 +62,15 @@ public class ComplexApiImpl implements ComplexApi {
 
 		delay(Config.DELAY_OP2);
 
-		// anything supposed to be tricky
-		String v = myMap.get(String.valueOf(val));
+		// count the calls to this operation with the given parameter value
+		String key = String.valueOf(val);
+		Integer v = myMap.get(key);
 		if (v != null) {
-			v += (char) ('a' + val);
-			myMap.put("" + val, v);
+			myMap.put(key, ++v);
 		} else {
-			myMap.put("" + val, "x");
+			myMap.put(key, 1);
 		}
-		return myMap.size() + val / 2;
+		return myMap.size();
 	}
 
 	@Override
